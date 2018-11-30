@@ -13,7 +13,10 @@ console.log('Process: ', process.argv);
 console.log('Yargs: ', argv);
 
 if (command === 'add') {
-  notes.addNote(argv.title, argv.body);
+  let note = notes.addNote(argv.title, argv.body);
+  note
+    ? console.log('Note created', `Title: ${note.title}`, `Body: ${note.body}`)
+    : console.log('Note title already in use');
 } else if (command === 'list') {
   notes.getAll();
 } else if (command === 'read') {
