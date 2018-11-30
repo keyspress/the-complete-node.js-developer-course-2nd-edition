@@ -10,6 +10,14 @@ request(
     json: true
   },
   (error, response, body) => {
-    console.log(body);
+    const resBody = body.results[0].locations[0];
+    console.log(
+      `Address: ${resBody.street}, ${resBody.adminArea5}, ${
+        resBody.adminArea3
+      } ${resBody.postalCode}, ${resBody.adminArea1}`
+    );
+    console.log(`Lat: ${resBody.latLng.lat}`);
+    console.log(`Lng: ${resBody.latLng.lng}`);
   }
 );
+// body.results[0].locations[0].latLng.lat;
