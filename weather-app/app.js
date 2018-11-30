@@ -25,14 +25,20 @@ request(
     json: true
   },
   (error, response, body) => {
-    const resBody = body.results[0].locations[0];
-    console.log(
-      `Address: ${resBody.street}, ${resBody.adminArea5}, ${
-        resBody.adminArea3
-      } ${resBody.postalCode}, ${resBody.adminArea1}`
-    );
-    console.log(`Lat: ${resBody.latLng.lat}`);
-    console.log(`Lng: ${resBody.latLng.lng}`);
+    if (error) {
+      console.log('Unable to connect to MapQuest server');
+    } else if (body.status === 'ZERO_RESULTS') {
+      console.log('Unable to find that address');
+    } else {
+      const resBody = body.results[0].locations[0];
+      console.log(
+        `Address: ${resBody.street}, ${resBody.adminArea5}, ${
+          resBody.adminArea3
+        } ${resBody.postalCode}, ${resBody.adminArea1}`
+      );
+      console.log(`Lat: ${resBody.latLng.lat}`);
+      console.log(`Lng: ${resBody.latLng.lng}`);
+    }
   }
 );
 // body.results[0].locations[0].latLng.lat;
