@@ -4,7 +4,7 @@ console.log(square(9));
 let user = {
   name: 'Kyle',
   sayHi: () => {
-    console.log(arguments);
+    console.log(arguments); //
     console.log(`Hi, I am ${this.name}`); // this keyword is not bound
   },
   sayHiAlt() {
