@@ -7,7 +7,12 @@ const { Todo } = require('./../models/todo');
 
 const todos = [
   { _id: new ObjectID(), text: 'First test todo' },
-  { _id: new ObjectID(), text: 'Second test todo' }
+  {
+    _id: new ObjectID(),
+    text: 'Second test todo',
+    completed: true,
+    completedAt: 333
+  }
 ];
 
 beforeEach(done => {
@@ -142,5 +147,53 @@ describe('DELETE /todos/:id', () => {
       .delete(`/todos/${badID}`)
       .expect(404)
       .end(done);
+  });
+});
+
+describe('PATCH todos/:id', () => {
+  it('should update the todo', done => {
+    const hexId = todos[0]._id.toHexString();
+    const updateText = 'test update';
+    request(app)
+      .patch(`/todos/${hexId}`)
+      .send({ text: updateText, completed: true })
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+
+        Todo.findById(hexId)
+          .then(todo => {
+            expect(todo.text).toBe(updateText);
+            expect(todo.completed).toBe(true);
+            expect(todo.completedAt).toBeA('number');
+            done();
+          })
+          .catch(e => done(e));
+      });
+  });
+
+  it('should clear completedAt when todo is not completed', done => {
+    const hexId = todos[1]._id.toHexString();
+    const updateText = 'test update';
+    request(app)
+      .patch(`/todos/${hexId}`)
+      .send({ text: updateText, completed: false })
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+
+        Todo.findById(hexId)
+          .then(todo => {
+            expect(todo.text).toBe(updateText);
+            expect(todo.completed).toBe(false);
+            expect(todo.completedAt).toNotExist();
+            done();
+          })
+          .catch(e => done(e));
+      });
   });
 });
