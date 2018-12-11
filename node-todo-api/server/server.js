@@ -127,7 +127,7 @@ app.post('/users', (req, res) => {
     });
 });
 
-app.get('/me', authenticate, (req, res) => {
+app.get('/users/me', authenticate, (req, res) => {
   res.send(req.user);
 });
 
