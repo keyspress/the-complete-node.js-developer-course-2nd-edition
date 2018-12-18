@@ -8,12 +8,18 @@ class Users {
     return user;
   }
   removeUser(id) {
-    const userIndex = this.users.findIndex(user => user.id === id);
-    if (userIndex !== -1) this.users.splice(userIndex, 1);
+    const user = this.getUser(id);
+
+    if (user) {
+      this.users = this.users.filter(user => user.id !== id);
+    }
+
+    return user;
+    // const userIndex = this.users.findIndex(user => user.id === id);
+    // if (userIndex !== -1) this.users.splice(userIndex, 1);
   }
   getUser(id) {
-    const user = this.users.filter(user => user.id === id);
-    return user[0];
+    return this.users.filter(user => user.id === id)[0];
   }
   getUserList(room) {
     const users = this.users.filter(user => user.room === room);

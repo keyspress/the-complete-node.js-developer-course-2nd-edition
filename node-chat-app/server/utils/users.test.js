@@ -49,24 +49,28 @@ describe('Users', () => {
   });
 
   it('should remove a user', () => {
-    users.removeUser('1');
+    const userId = '1';
+    const user = users.removeUser(userId);
     expect(users.users.length).toBe(2);
-    expect(users.users[0].id).toBe('2');
+    expect(user.id).toBe(userId);
   });
 
   it('should not remove user', () => {
-    users.removeUser('99');
+    const userId = '99';
+    const user = users.removeUser(userId);
     expect(users.users.length).toBe(3);
-    expect(users.users[0].id).toBe('1');
+    expect(user).toNotExist();
   });
 
   it('should find user', () => {
-    const user = users.getUser('1');
-    expect(user.name).toBe('Tester1');
+    const userId = '1';
+    const user = users.getUser(userId);
+    expect(user.id).toBe(userId);
   });
 
   it('should not find user', () => {
-    const user = users.getUser('99');
+    const userId = '99';
+    const user = users.getUser(userId);
     expect(user).toNotExist();
   });
 });
